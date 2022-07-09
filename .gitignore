@@ -1,1 +1,5 @@
 /obj
+/Properties
+/bin/Release/net6.0/osx-x64
+/bin/Release/net6.0/win-x86
+/bin/Release/net6.0/runtimes
