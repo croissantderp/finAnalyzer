@@ -73,6 +73,30 @@ while (true)
         Bitmap testOutput1 = new Bitmap(width, height);
         Bitmap testOutput2 = new Bitmap(width, height);
 
+        double threshold = 0;
+        int totalCounter = 0;
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                Color c = bitmap.GetPixel(i, j);
+
+                if ((c.R < 10 && c.G > 245 && c.B < 10) || c.A == 0)
+                {
+                    continue;
+                }
+
+                //adds grayscale value to average
+                threshold += (c.R + c.G + c.B) / 3.0;
+                totalCounter++;
+            }
+        }
+
+        //calculates average
+        threshold /= totalCounter;
+        Console.WriteLine(threshold);
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -84,7 +108,7 @@ while (true)
                 }
 
                 //if pixel is light
-                if ((c.R + c.G + c.B) / 3 > 125)
+                if ((c.R + c.G + c.B) / 3 > threshold)
                 {
                     lightPixels++;
                     testOutput1.SetPixel(i, j, c);
