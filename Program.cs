@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Linq;
-using System.IO;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
 
 Console.WriteLine("Please enter a path");
@@ -63,8 +59,20 @@ while (true)
     {
         int darkPixels = 0, lightPixels = 0;
 
+        try
+        {
+            Image test = Image.FromFile(files[cur]);
+            test.Dispose();
+        }
+        catch
+        {
+            Console.WriteLine("File not a valid image type, skipping...\n");
+            continue;
+        }
+
         Console.WriteLine(files[cur]);
         Image image = Image.FromFile(files[cur]);
+
         Bitmap bitmap = new Bitmap(image);
 
         int height = image.Height;
@@ -82,7 +90,7 @@ while (true)
             {
                 Color c = bitmap.GetPixel(i, j);
 
-                if ((c.R < 10 && c.G > 245 && c.B < 10) || c.A == 0)
+                if ((c.R < 10 && c.G > 245 && c.B < 10) || c.A <= 5)
                 {
                     continue;
                 }
@@ -102,7 +110,7 @@ while (true)
             for (int j = 0; j < height; j++)
             {
                 Color c = bitmap.GetPixel(i, j);
-                if ((c.R < 10 && c.G > 245 && c.B < 10) || c.A == 0)
+                if ((c.R < 10 && c.G > 245 && c.B < 10) || c.A <= 5)
                 {
                     continue;
                 }
