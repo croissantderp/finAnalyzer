@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () { initiate(); });
 
 var begin;
+var finalString = "";
 
 function initiate() {
     begin = document.getElementById("begin");
@@ -10,8 +11,11 @@ function initiate() {
         const selectedFiles = document.getElementById('input').files;
 
         document.getElementById("results").innerHTML = "";
-        var finalString = "";
-        
+        finalString = "filename,light pixels,light pixel percent,dark pixels,dark pixel percent<br />";
+
+        var count = selectedFiles.length;
+        var currentCount = 0;
+
         Array.from(selectedFiles).forEach(function (selectedFile) {
 
             var reader = new FileReader();
@@ -69,11 +73,18 @@ function initiate() {
                 var percentD = dark / total * 100;
 
                 console.log("light colored pixels: " + light + ", " + percentL + "% \ndark colored pixel: " + dark + ", " + percentD + "%");
-                document.getElementById("results").innerHTML += selectedFile.name + "<br />light colored pixels: " + light + ", " + percentL + "% <br />dark colored pixel: " + dark + ", " + percentD + "%<br /><br />";
+                finalString += selectedFile.name + "," + light + "," + percentL + "," + dark + ", " + percentD + "<br />";
+
+                currentCount++;
+                if (currentCount == count) {
+                    end();
+                }
             }
         });
     });
 }
 
-
+function end() {
+    document.getElementById("results").innerHTML = finalString;
+}
 
